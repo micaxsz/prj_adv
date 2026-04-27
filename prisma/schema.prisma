@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum tipe{
+  text
+  gambar
+  code
+  url
+}
+
+enum status{
+  show
+  hide
+}
+
+model tutorial{
+  id Int @id @default(autoincrement())
+  judul String
+  foto String
+  kode_matkul String
+  matkul String
+  creator_email String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  url_presentation String @unique
+  url_finished String @unique
+  detail_tutorial detail_tutorial[]
+}
+
+model detail_tutorial{
+  id Int @id @default(autoincrement())
+  tipe tipe
+  order Int
+  status status
+  isi String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  tutorial_id Int
+  tutorial tutorial @relation(fields: [tutorial_id], references: [id])
+}
+
